@@ -11,10 +11,10 @@
     }
 </style>
 
-<h2 class="text-center">Hi, @Model.Name!</h2>
+<h2 id="user-welcome" class="text-center">Hi, @Model.Name!</h2>
 <div class="col-lg-10 col-lg-offset-1 table-bordered weather-section">
     <div class="text-center">
-        <img src="http://openweathermap.org/img/w/@icon" alt="@Model.WeatherDescription" />
-        <p>Weather in @Model.CityName is @Model.WeatherDescription and @Model.Temperature degrees</p>
+        <img id="weather-image" src="http://openweathermap.org/img/w/@icon" alt="@Model.WeatherDescription" />
+        <p id="weather-description">Weather in @Model.CityName is @Model.WeatherDescription and @Model.Temperature degrees</p>
     </div>
 </div>
