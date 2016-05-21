@@ -1,0 +1,20 @@
+﻿@model WeatherView.Models.PersonalWeatherViewModel
+@{
+    ViewBag.Title = "Weather View";
+    var icon = Model.Icon + ".png";
+}
+
+<style scoped>
+    .weather-section {
+        background-color: #eee;
+        font-size: 1.5em;
+    }
+</style>
+
+<h2 class="text-center">Hi, @Model.Name!</h2>
+<div class="col-lg-10 col-lg-offset-1 table-bordered weather-section">
+    <div class="text-center">
+        <img src="http://openweathermap.org/img/w/@icon" alt="@Model.WeatherDescription" />
+        <p>Weather in @Model.CityName is @Model.WeatherDescription and @Model.Temperature degrees</p>
+    </div>
+</div>
