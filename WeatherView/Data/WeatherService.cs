@@ -8,31 +8,21 @@ using WeatherView.Models;
 
 namespace WeatherView.Data
 {
-    public class WeatherService
+    public class WeatherService : IWeatherService
     {
+        private readonly IWeatherCacheProvider _weatherCacheProvider;
         private readonly string _apiKey;
-        private readonly Dictionary<string, WeatherConditions> _cacheDictionary;
-        private readonly string _cacheFile;
 
-        public WeatherService()
+        public WeatherService(IWeatherCacheProvider weatherCacheProvider)
         {
+            _weatherCacheProvider = weatherCacheProvider;
             _apiKey = ConfigurationManager.AppSettings["WeatherApiKey"];
-            _cacheFile = ConfigurationManager.AppSettings["WeatherCacheFile"];
-            if (System.IO.File.Exists(_cacheFile))
-            {
-                _cacheDictionary = System.IO.File.ReadAllLines(ConfigurationManager.AppSettings["WeatherCacheFile"])
-                    .ToDictionary(w => w.Split('|')[0], w => JsonConvert.DeserializeObject<WeatherConditions>(w.Split('|')[1]));
-            }
-            else
-            {
-                _cacheDictionary = new Dictionary<string, WeatherConditions>();
-            }
         }
 
         public WeatherConditions GetWeatherForCityAndCountry(string cityName, string countryCode)
         {
             var cityCountry = $"{cityName},{countryCode}";
-            var weather = _cacheDictionary.ContainsKey(cityCountry) ? _cacheDictionary[cityCountry] : null;
+            var weather = _weatherCacheProvider.WeatherCacheDictionary.ContainsKey(cityCountry) ? _weatherCacheProvider.WeatherCacheDictionary[cityCountry] : null;
 
             if (weather == null)
             {
@@ -55,7 +45,7 @@ namespace WeatherView.Data
             return weather;
         }
 
-        public static WeatherConditions ParseWeather(string json)
+        public WeatherConditions ParseWeather(string json)
         {
             var conditions = JsonConvert.DeserializeObject<WeatherConditionsJson>(json);
             return WeatherConditions.FromJsonObject(conditions);
@@ -63,10 +53,7 @@ namespace WeatherView.Data
 
         private void AddToDictionary(string cityCountry, WeatherConditions weather)
         {
-            _cacheDictionary.Add(cityCountry, weather);
-            System.IO.File.WriteAllLines(_cacheFile,
-                _cacheDictionary
-                .Select(p => $"{p.Key}|{JsonConvert.SerializeObject(p.Value)}"));
+           _weatherCacheProvider.AddToCacheDictionary(cityCountry, weather);
         }
     }
 

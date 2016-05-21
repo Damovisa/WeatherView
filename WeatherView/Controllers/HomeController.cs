@@ -6,13 +6,13 @@ namespace WeatherView.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly UserRepository _userRepo;
-        private readonly WeatherService _weatherService;
+        private readonly IUserRepository _userRepo;
+        private readonly IWeatherService _weatherService;
 
-        public HomeController()
+        public HomeController(IUserRepository userRepo, IWeatherService weatherService)
         {
-            _userRepo = new UserRepository();
-            _weatherService = new WeatherService();
+            _userRepo = userRepo;
+            _weatherService = weatherService;
         }
 
         // GET: Home

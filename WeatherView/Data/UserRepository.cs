@@ -4,7 +4,7 @@ using WeatherView.Models;
 
 namespace WeatherView.Data
 {
-    internal class UserRepository
+    public class UserRepository : IUserRepository
     {
         private List<User> _users =
         new List<User>
@@ -22,8 +22,6 @@ namespace WeatherView.Data
             new User { Id=11, CityName = "auckland", CountryCode = "nz", Name = "Bruce", FavouriteColor = Color.BurlyWood},
             new User { Id=12, CityName = "barcelona", CountryCode = "es", Name = "Karoline", FavouriteColor = Color.Gainsboro}
         };
-
-        private readonly WeatherService _weatherService = new WeatherService();
 
         public User GetUserProfile(int id)
         {
