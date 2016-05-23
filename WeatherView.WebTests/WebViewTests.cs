@@ -17,7 +17,7 @@ namespace WeatherView.WebTests
         [TestInitialize]
         public void Initialize()
         {
-            _baseUrl = ConfigurationManager.AppSettings["BaseUrl"];
+            _baseUrl = ConfigurationManager.AppSettings["BaseTestUrl"];
             _driver = new FirefoxDriver();
         }
 
