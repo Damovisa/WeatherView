@@ -122,6 +122,7 @@
     <Compile Include="Data\IWeatherCacheProvider.cs" />
     <Compile Include="Data\IWeatherService.cs" />
     <Compile Include="Data\UserRepository.cs" />
+    <Compile Include="Data\WeatherFileCacheProvider.cs" />
     <Compile Include="Data\WeatherService.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

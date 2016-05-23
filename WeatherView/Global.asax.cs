@@ -34,6 +34,8 @@ namespace WeatherView
         protected override void Load(ContainerBuilder builder)
         {
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
+
+            builder.RegisterType<WeatherNoCacheProvider>().As<IWeatherCacheProvider>();
         }
     }
 }
