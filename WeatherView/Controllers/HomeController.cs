@@ -23,8 +23,8 @@ namespace WeatherView.Controllers
             var viewModel = new PersonalWeatherViewModel
             {
                 Name = profile.Name,
-                CityName = profile.CityName,
-                CountryCode = profile.CountryCode,
+                CityName = conditions.CityName,
+                CountryCode = conditions.CountryCode,
                 Temperature = conditions.Temperature,
                 WeatherDescription = conditions.Description,
                 Icon = conditions.IconId
