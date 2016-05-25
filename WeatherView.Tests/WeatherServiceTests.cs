@@ -20,7 +20,7 @@ namespace WeatherView.Tests
                 CountryCode = "AU",
                 CityName = "Brisbane",
                 Description = "Rain",
-                Temperature = 20.36f,
+                Temperature = 20.4f,
                 IconId = "09n",
                 MaxTemperature = 21.67f,
                 MinTemperature = 18.2f
