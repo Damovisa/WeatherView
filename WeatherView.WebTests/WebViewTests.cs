@@ -39,7 +39,7 @@ namespace WeatherView.WebTests
             welcome.TagName.Should()
                 .Match(t => t.Equals(expectedNameTag, StringComparison.InvariantCultureIgnoreCase));
             // should be in the format "Hi, Name!"
-            welcome.Text.Should().MatchRegex("^Hi, .*!$");
+            welcome.Text.Should().MatchRegex("^Welcome, .*!$");
         }
     }
 }
