@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace WeatherView.Models
 {
     public class PersonalWeatherViewModel
@@ -8,5 +10,6 @@ namespace WeatherView.Models
         public float Temperature { get; set; }
         public string WeatherDescription { get; set; }
         public string Icon { get; set; }
+        public string BackgroundColor { get; set; }
     }
 }
