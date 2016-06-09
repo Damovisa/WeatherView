@@ -11,7 +11,7 @@ namespace WeatherView.Data
         {
             new User { Id=1, CityName = "brisbane", CountryCode = "au", Name = "Damian", FavouriteColor = Color.Navy},
             new User { Id=2, CityName = "melbourne", CountryCode = "au", Name = "Frank", FavouriteColor = Color.PaleGoldenrod},
-            new User { Id=3, CityName = "oslo", CountryCode = "no", Name = "Gerard", FavouriteColor = Color.Aquamarine},
+            new User { Id=3, CityName = "copenhagen", CountryCode = "dk", Name = "Lars", FavouriteColor = Color.Aquamarine},
             new User { Id=4, CityName = "bergen", CountryCode = "no", Name = "Simon", FavouriteColor = Color.Teal},
             new User { Id=5, CityName = "london", CountryCode = "uk", Name = "Veronica", FavouriteColor = Color.Chocolate},
             new User { Id=6, CityName = "cambridge", CountryCode = "uk", Name = "Ina", FavouriteColor = Color.DeepPink},

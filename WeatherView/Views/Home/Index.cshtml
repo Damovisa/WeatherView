@@ -1,7 +1,9 @@
-﻿@model WeatherView.Models.PersonalWeatherViewModel
+﻿@using System.Configuration
+@model WeatherView.Models.PersonalWeatherViewModel
 @{
     ViewBag.Title = "Weather View";
     var icon = Model.Icon + ".png";
+    var env = ConfigurationManager.AppSettings["Env"];
 }
 
 <style scoped>
@@ -12,9 +14,14 @@
 </style>
 
 <h2 id="user-welcome" class="text-center">Welcome, @Model.Name!</h2>
-<div class="col-lg-10 col-lg-offset-1 table-bordered weather-section">
-    <div class="text-center">
-        <img id="weather-image" src="http://openweathermap.org/img/w/@icon" alt="@Model.WeatherDescription" />
-        <p id="weather-description">Weather in @Model.CityName is @Model.WeatherDescription and @Model.Temperature degrees</p>
+<div class="row">
+    <div class="col-lg-10 col-lg-offset-1 table-bordered weather-section">
+        <div class="text-center">
+            <img id="weather-image" src="http://openweathermap.org/img/w/@icon" alt="@Model.WeatherDescription" />
+            <p id="weather-description">Weather in @Model.CityName is @Model.WeatherDescription and @Model.Temperature degrees</p>
+        </div>
     </div>
+</div>
+<div class="row">
+    <div class="col-lg-12 text-center" style="font-size: small; margin-top: 5px;color:green">@env</div>
 </div>
