@@ -22,7 +22,7 @@ namespace WeatherView.Models
                 CountryCode = json.sys.country,
                 Description = json.weather.FirstOrDefault()?.main,
                 IconId = json.weather.FirstOrDefault()?.icon,
-                Temperature = (float)Math.Round(json.main.temp, 1),
+                Temperature = json.main.temp,
                 MinTemperature = json.main.temp_min,
                 MaxTemperature = json.main.temp_max
             };

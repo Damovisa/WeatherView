@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
+﻿using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
-using Autofac.Core;
 using Autofac.Integration.Mvc;
 using WeatherView.Data;
 using Module = Autofac.Module;
@@ -35,7 +30,7 @@ namespace WeatherView
         {
             builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
 
-            builder.RegisterType<WeatherNoCacheProvider>().As<IWeatherCacheProvider>();
+            builder.RegisterType<WeatherFileCacheProvider>().As<IWeatherCacheProvider>();
         }
     }
 }

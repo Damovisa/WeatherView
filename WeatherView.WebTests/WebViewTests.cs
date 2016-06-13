@@ -4,7 +4,6 @@ using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Firefox;
-using OpenQA.Selenium.Remote;
 
 namespace WeatherView.WebTests
 {
@@ -38,7 +37,7 @@ namespace WeatherView.WebTests
             // should be an h2
             welcome.TagName.Should()
                 .Match(t => t.Equals(expectedNameTag, StringComparison.InvariantCultureIgnoreCase));
-            // should be in the format "Hi, Name!"
+            // should be in the format "Welcome, Name!"
             welcome.Text.Should().MatchRegex("^Welcome, .*!$");
         }
     }

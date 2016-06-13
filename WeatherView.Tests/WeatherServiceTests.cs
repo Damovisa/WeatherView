@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Web.Mvc;
 using FluentAssertions;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
+using WeatherView.Controllers;
 using WeatherView.Data;
 using WeatherView.Models;
 
@@ -20,7 +23,7 @@ namespace WeatherView.Tests
                 CountryCode = "AU",
                 CityName = "Brisbane",
                 Description = "Rain",
-                Temperature = 20.4f,
+                Temperature = 20.36f,
                 IconId = "09n",
                 MaxTemperature = 21.67f,
                 MinTemperature = 18.2f
@@ -36,5 +39,44 @@ namespace WeatherView.Tests
             parsed.ShouldBeEquivalentTo(expectedWeather);
         }
 
+        [TestMethod]
+        public void ControllerShouldReturnCorrectWeatherInViewModel()
+        {
+            var userId = 1;
+            var userRepo = Substitute.For<IUserRepository>();
+            var weatherService = Substitute.For<IWeatherService>();
+            var expectedUser = new User
+            {
+                Id = userId,
+                CityName = "MyCity",
+                CountryCode = "AU"
+            };
+            var expectedWeather = new WeatherConditions
+            {
+                CountryCode = "AU",
+                CityName = "MyCity",
+                Temperature = 20.36f
+            };
+            var expectedViewModel = new PersonalWeatherViewModel
+            {
+                CityName = expectedUser.CityName,
+                CountryCode = expectedWeather.CountryCode,
+                Temperature = Math.Round(expectedWeather.Temperature, 1)
+            };
+
+            userRepo.GetUserProfile(1)
+                .Returns(expectedUser);
+            weatherService.GetWeatherForCityAndCountry(expectedUser.CityName, expectedUser.CountryCode)
+                .Returns(expectedWeather);
+
+            var controller = new HomeController(userRepo, weatherService);
+
+            var result = controller.Index(userId) as ViewResult;
+            var viewModel = result.Model as PersonalWeatherViewModel;
+
+
+            viewModel.Temperature.ShouldBeEquivalentTo(expectedViewModel.Temperature);
+        }
     }
+
 }
