@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Web.Mvc;
 using LaunchDarkly.Client;
 using WeatherView.Data;
+using WeatherView.FeatureFlags;
 using WeatherView.Models;
 
 namespace WeatherView.Controllers
@@ -12,11 +13,14 @@ namespace WeatherView.Controllers
     {
         private readonly IUserRepository _userRepo;
         private readonly IWeatherService _weatherService;
+        private readonly IFeatureFlagProvider _ffProvider;
 
-        public HomeController(IUserRepository userRepo, IWeatherService weatherService)
+        public HomeController(IUserRepository userRepo,
+            IWeatherService weatherService, IFeatureFlagProvider ffProvider)
         {
             _userRepo = userRepo;
             _weatherService = weatherService;
+            _ffProvider = ffProvider;
         }
 
         // GET: Home
@@ -25,10 +29,7 @@ namespace WeatherView.Controllers
             var profile = _userRepo.GetUserProfile(userId);
             var conditions = _weatherService.GetWeatherForCityAndCountry(profile.CityName, profile.CountryCode);
 
-            var lcClient = new LdClient(ConfigurationManager.AppSettings["LaunchDarklyApiKey"]);
-            var user = new LaunchDarkly.Client.User(userId.ToString());
-            user.Name = profile.Name;
-            var bgColour = lcClient.Toggle("weather-background", user);
+            var bgColour = _ffProvider.Toggle("weather-background", userId, profile.Name);
 
             var viewModel = new PersonalWeatherViewModel
             {

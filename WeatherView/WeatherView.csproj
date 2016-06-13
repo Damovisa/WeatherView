@@ -135,6 +135,7 @@
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="FeatureFlags\IFeatureFlagProvider.cs" />
     <Compile Include="Data\IUserRepository.cs" />
     <Compile Include="Data\IWeatherCacheProvider.cs" />
     <Compile Include="Data\IWeatherService.cs" />

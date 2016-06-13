@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Web.Mvc;
 using FluentAssertions;
+using LaunchDarkly.Client;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using NSubstitute;
 using WeatherView.Controllers;
 using WeatherView.Data;
+using WeatherView.FeatureFlags;
 using WeatherView.Models;
+using User = WeatherView.Models.User;
 
 namespace WeatherView.Tests
 {
@@ -45,6 +48,8 @@ namespace WeatherView.Tests
             var userId = 1;
             var userRepo = Substitute.For<IUserRepository>();
             var weatherService = Substitute.For<IWeatherService>();
+            var ffProvider = Substitute.For<IFeatureFlagProvider>();
+
             var expectedUser = new User
             {
                 Id = userId,
@@ -64,12 +69,14 @@ namespace WeatherView.Tests
                 Temperature = Math.Round(expectedWeather.Temperature, 1)
             };
 
+            ffProvider.Toggle(Arg.Any<string>(), userId, Arg.Any<string>())
+                .Returns(false);
             userRepo.GetUserProfile(1)
                 .Returns(expectedUser);
             weatherService.GetWeatherForCityAndCountry(expectedUser.CityName, expectedUser.CountryCode)
                 .Returns(expectedWeather);
 
-            var controller = new HomeController(userRepo, weatherService);
+            var controller = new HomeController(userRepo, weatherService, ffProvider);
 
             var result = controller.Index(userId) as ViewResult;
             var viewModel = result.Model as PersonalWeatherViewModel;

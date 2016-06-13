@@ -1,9 +1,12 @@
-﻿using System.Reflection;
+﻿using System.Configuration;
+using System.Reflection;
 using System.Web.Mvc;
 using System.Web.Routing;
 using Autofac;
 using Autofac.Integration.Mvc;
+using LaunchDarkly.Client;
 using WeatherView.Data;
+using WeatherView.FeatureFlags;
 using Module = Autofac.Module;
 
 namespace WeatherView
@@ -28,9 +31,17 @@ namespace WeatherView
     {
         protected override void Load(ContainerBuilder builder)
         {
-            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly()).AsImplementedInterfaces();
+            builder.RegisterAssemblyTypes(Assembly.GetExecutingAssembly())
+                .AsImplementedInterfaces();
 
-            builder.RegisterType<WeatherFileCacheProvider>().As<IWeatherCacheProvider>();
+            builder.RegisterType<WeatherFileCacheProvider>()
+                .As<IWeatherCacheProvider>();
+
+            builder.RegisterType<LdClient>().AsSelf().SingleInstance()
+                .WithParameter("apiKey", ConfigurationManager.AppSettings["LaunchDarklyApiKey"]);
+
+            builder.RegisterType<LaunchDarklyFeatureFlagProvider>()
+                .As<IFeatureFlagProvider>();
         }
     }
 }
